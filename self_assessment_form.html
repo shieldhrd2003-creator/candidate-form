@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Candidate Application & Self-Assessment Form</title>
+<style>
+:root{
+  --navy:#12284c; --navy-2:#1d3b6e; --accent:#2f80ed; --soft:#eaf1fb; --bg:#f2f5fa;
+  --card:#fff; --line:#dde4ef; --text:#1c2433; --muted:#667389; --red:#d6334a; --red-bg:#fff4f5;
+  --green:#1f9d63; --amber:#b7791f;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}
+button{font:inherit;cursor:pointer}
+.hidden{display:none!important}
+
+/* ---------- Header ---------- */
+.topbar{background:linear-gradient(135deg,var(--navy),var(--navy-2));color:#fff;padding:22px 20px 70px}
+.topbar-in{max-width:1080px;margin:0 auto;display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap}
+.brand small{display:block;letter-spacing:.14em;text-transform:uppercase;font-size:11.5px;opacity:.75}
+.brand h1{margin:4px 0 0;font-size:24px;font-weight:650;letter-spacing:.2px}
+.conf{font-size:12.5px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);padding:6px 12px;border-radius:999px}
+.wrap{max-width:1080px;margin:-48px auto 40px;padding:0 16px}
+
+/* ---------- Stepper ---------- */
+.stepper-card{background:var(--card);border-radius:16px;box-shadow:0 6px 24px rgba(18,40,76,.10);padding:18px 22px 16px;margin-bottom:18px}
+.stepper{display:flex;justify-content:space-between;gap:6px;list-style:none;margin:0 0 14px;padding:0}
+.stepper li{flex:1;text-align:center;position:relative}
+.stepper button{background:none;border:0;padding:0;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:6px;width:100%}
+.stepper .dot{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-weight:650;font-size:14px;background:#e8edf5;color:var(--muted);transition:.2s}
+.stepper .lbl{font-size:12px;line-height:1.2}
+.stepper li.done .dot{background:var(--green);color:#fff}
+.stepper li.active .dot{background:var(--navy);color:#fff;box-shadow:0 0 0 5px rgba(18,40,76,.14)}
+.stepper li.active .lbl{color:var(--navy);font-weight:650}
+.stepper li.locked button{cursor:default}
+.pbar{height:7px;background:#e8edf5;border-radius:99px;overflow:hidden}
+.pbar>i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--navy-2));width:0;transition:width .35s}
+.pmeta{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);margin-top:8px;flex-wrap:wrap;gap:6px}
+.pmeta b{color:var(--navy)}
+
+/* ---------- Card ---------- */
+.card{background:var(--card);border-radius:16px;box-shadow:0 6px 24px rgba(18,40,76,.08);padding:28px 30px}
+.card>h2{margin:0;color:var(--navy);font-size:22px}
+.card>.desc{margin:4px 0 20px;color:var(--muted)}
+.block{border:1px solid var(--line);border-radius:12px;padding:18px 18px 20px;margin-bottom:18px;background:#fcfdff}
+.block>h3{margin:0 0 12px;font-size:15.5px;color:var(--navy);display:flex;align-items:center;gap:8px}
+.block>h3::before{content:"";width:4px;height:16px;border-radius:2px;background:var(--accent)}
+.note{margin:-4px 0 12px;font-size:13px;color:var(--muted)}
+.legend{font-size:13px;color:var(--muted);background:var(--soft);border-radius:10px;padding:9px 12px;margin-bottom:18px}
+.star{color:var(--red);font-weight:700;margin-left:2px}
+
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px 18px}
+.w3{grid-column:span 3}.w4{grid-column:span 4}.w6{grid-column:span 6}.w8{grid-column:span 8}.w12{grid-column:span 12}
+@media (max-width:860px){.w3,.w4,.w6{grid-column:span 6}.w8{grid-column:span 12}}
+@media (max-width:560px){.w3,.w4,.w6,.w8{grid-column:span 12}.card{padding:20px 16px}.stepper .lbl{display:none}.stepper li.active .lbl{display:block;position:absolute;top:42px;left:50%;transform:translateX(-50%);white-space:nowrap}.stepper{margin-bottom:34px}}
+
+.field label.lab{display:block;font-size:13.5px;font-weight:600;margin-bottom:6px;color:#26324a}
+.field input[type=text],.field input[type=tel],.field input[type=email],.field input[type=date],.field input[type=number],.field select,.field textarea,
+.tbl input[type=text],.tbl input[type=date],.tbl input[type=number],.tbl select{
+  width:100%;padding:10px 12px;border:1.5px solid #cdd6e4;border-radius:10px;background:#fff;color:var(--text);font:inherit;transition:border .15s,box-shadow .15s}
+.field textarea{min-height:92px;resize:vertical}
+.field input:focus,.field select:focus,.field textarea:focus,.tbl input:focus,.tbl select:focus{outline:0;border-color:var(--accent);box-shadow:0 0 0 3px rgba(47,128,237,.18)}
+.field input[readonly]{background:#f1f4f9;color:#55627a}
+.hint{font-size:12px;color:var(--muted);margin-top:4px}
+.err{font-size:12.5px;color:var(--red);margin-top:5px;min-height:0}
+.err:empty{display:none}
+.field.has-error input,.field.has-error select,.field.has-error textarea{border-color:var(--red);background:var(--red-bg)}
+.field.has-error .opts{outline:1.5px solid var(--red);background:var(--red-bg)}
+.opts{display:flex;gap:18px;flex-wrap:wrap;padding:9px 12px;border-radius:10px;border:1.5px solid #cdd6e4;background:#fff}
+.opt{display:flex;align-items:center;gap:7px;font-weight:500;cursor:pointer}
+.chk{display:flex;align-items:flex-start;gap:10px;font-size:14px;cursor:pointer}
+.chk input{margin-top:3px;width:17px;height:17px;accent-color:var(--navy)}
+.same{margin-top:7px;font-size:13px}
+.field.has-error .chk{color:var(--red)}
+
+/* ---------- Tables ---------- */
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:#fff}
+.tbl table{border-collapse:collapse;width:100%;min-width:720px}
+.tbl th{background:var(--soft);color:var(--navy);font-size:12.5px;text-align:left;padding:9px 8px;white-space:nowrap}
+.tbl td{padding:6px 5px;border-top:1px solid var(--line);vertical-align:middle}
+.tbl td.no{width:34px;text-align:center;color:var(--muted);font-size:13px}
+.tbl td.ck{text-align:center}
+.tbl td.ck input{width:18px;height:18px;accent-color:var(--navy)}
+.tbl input.bad,.tbl select.bad{border-color:var(--red);background:var(--red-bg)}
+.tbl .rm{border:0;background:none;color:var(--muted);font-size:18px;padding:2px 8px;border-radius:6px}
+.tbl .rm:hover{background:#fde8eb;color:var(--red)}
+.add{margin-top:10px;background:#fff;border:1.5px dashed #9db4d8;color:var(--navy-2);padding:8px 14px;border-radius:10px;font-weight:600;font-size:13.5px}
+.add:hover{background:var(--soft)}
+.tbl.has-error .tbl-wrap{border-color:var(--red)}
+
+/* ---------- Buttons / nav ---------- */
+.nav{display:flex;justify-content:space-between;align-items:center;margin-top:22px;gap:12px;flex-wrap:wrap}
+.btn{border:0;border-radius:11px;padding:12px 24px;font-weight:650;font-size:15px;transition:.15s}
+.btn-primary{background:var(--navy);color:#fff;box-shadow:0 4px 12px rgba(18,40,76,.25)}
+.btn-primary:hover{background:var(--navy-2)}
+.btn-ghost{background:#fff;color:var(--navy);border:1.5px solid #c6d1e3}
+.btn-ghost:hover{background:var(--soft)}
+.btn-submit{background:var(--green);box-shadow:0 4px 12px rgba(31,157,99,.3);padding:13px 30px}
+.btn-submit:hover{background:#188552}
+.btn[disabled]{opacity:.6;cursor:not-allowed}
+.banner{display:none;background:var(--red-bg);border:1px solid #f3c1c8;color:#9d1f33;padding:11px 14px;border-radius:10px;margin-bottom:16px;font-size:14px}
+.banner.show{display:block}
+.banner.info{background:var(--soft);border-color:#c5d8f3;color:var(--navy)}
+.draftbar{display:flex;justify-content:space-between;gap:10px;font-size:12.5px;color:var(--muted);margin-top:10px;flex-wrap:wrap}
+.linkbtn{background:none;border:0;color:var(--accent);padding:0;font-size:inherit;text-decoration:underline}
+
+/* ---------- Summary / done ---------- */
+.sumtable{width:100%;border-collapse:collapse;font-size:14px}
+.sumtable td{padding:9px 6px;border-top:1px solid var(--line)}
+.sumtable tr:first-child td{border-top:0}
+.pill{display:inline-block;border-radius:99px;padding:2px 10px;font-size:12.5px;font-weight:650}
+.pill.ok{background:#e3f6ec;color:var(--green)}.pill.no{background:#fdecee;color:var(--red)}
+.declare{background:var(--soft);border-radius:12px;padding:14px 16px;margin-bottom:14px}
+.done{text-align:center;padding:40px 30px}
+.done .tick{width:78px;height:78px;border-radius:50%;background:#e3f6ec;color:var(--green);display:grid;place-items:center;font-size:42px;margin:0 auto 14px}
+.done h2{margin:0;color:var(--navy);font-size:26px}
+.done p{color:var(--muted);max-width:560px;margin:8px auto}
+.recbox{display:inline-grid;grid-template-columns:auto auto;gap:6px 18px;text-align:left;background:var(--soft);border-radius:12px;padding:16px 22px;margin:16px 0 20px;font-size:14px}
+.recbox b{color:var(--navy)}
+.actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:6px}
+.btn-print{background:var(--navy);color:#fff;font-size:16px;padding:14px 32px}
+
+/* ---------- Modal / admin ---------- */
+.modal-back{position:fixed;inset:0;background:rgba(10,20,40,.55);display:none;place-items:center;z-index:50;padding:16px}
+.modal-back.show{display:grid}
+.modal{background:#fff;border-radius:16px;max-width:520px;width:100%;padding:26px;box-shadow:0 20px 60px rgba(0,0,0,.3);max-height:90vh;overflow:auto}
+.modal.wide{max-width:900px}
+.modal h3{margin:0 0 8px;color:var(--navy);font-size:19px}
+.modal p{margin:0 0 18px;color:var(--muted)}
+.modal .row{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}
+.logtable{width:100%;border-collapse:collapse;font-size:13px;margin:10px 0 16px}
+.logtable th,.logtable td{border-bottom:1px solid var(--line);padding:7px 6px;text-align:left}
+.spin{display:inline-block;width:14px;height:14px;border:2px solid #fff;border-top-color:transparent;border-radius:50%;animation:sp .7s linear infinite;vertical-align:-2px;margin-right:8px}
+@keyframes sp{to{transform:rotate(360deg)}}
+
+/* ---------- Print document (hidden on screen) ---------- */
+#printArea{display:none}
+
+@media print{
+  @page{size:A4;margin:14mm 13mm 16mm;@bottom-center{content:"Page " counter(page) " of " counter(pages);font-size:9px;color:#555}}
+  html,body{background:#fff!important}
+  body *{visibility:hidden}
+  .app-shell,.modal-back{display:none!important}
+  #printArea,#printArea *{visibility:visible}
+  #printArea{display:block;color:#000;font:11px/1.45 "Segoe UI",Arial,sans-serif}
+  .ph{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:2.5px solid #12284c;padding-bottom:8px;margin-bottom:10px}
+  .ph h1{margin:0;font-size:18px;color:#12284c}
+  .ph small{display:block;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:#555}
+  .ph .meta{text-align:right;font-size:10px;line-height:1.5}
+  .ps{margin:12px 0 0;break-inside:auto}
+  .ps h2{font-size:12.5px;margin:0 0 6px;padding:4px 8px;background:#e9eef7!important;color:#12284c;border-left:4px solid #12284c;-webkit-print-color-adjust:exact;print-color-adjust:exact;break-after:avoid}
+  .ps h3{font-size:11px;margin:8px 0 4px;color:#12284c;break-after:avoid}
+  #printArea table{width:100%;border-collapse:collapse;margin-bottom:6px}
+  #printArea th,#printArea td{border:1px solid #9aa5b8;padding:3px 6px;text-align:left;vertical-align:top;font-size:10.5px}
+  #printArea th{background:#f1f4f9!important;font-weight:600;width:19%;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  #printArea table.list th{width:auto}
+  #printArea tr{break-inside:avoid}
+  .qa{break-inside:avoid;margin:0 0 6px}
+  .qa b{display:block;font-size:10.5px}
+  .qa div{border:1px solid #9aa5b8;padding:4px 6px;min-height:20px;white-space:pre-wrap}
+  .decl{border:1px solid #9aa5b8;padding:8px 10px;margin-top:6px;break-inside:avoid}
+  .sig{display:grid;grid-template-columns:1fr 1fr;gap:34px;margin-top:38px;break-inside:avoid}
+  .sig div{border-top:1.5px solid #000;padding-top:4px;font-size:10.5px}
+  .sig small{display:block;color:#444;font-size:9.5px}
+  .pfoot{margin-top:18px;font-size:9px;color:#555;text-align:center;border-top:1px solid #bbb;padding-top:5px}
+}
+</style>
+</head>
+<body>
+
+<div class="app-shell">
+  <header class="topbar">
+    <div class="topbar-in">
+      <div class="brand"><small id="coName">Shield</small><h1>Candidate Application &amp; Self-Assessment</h1></div>
+      <div class="conf">🔒 All information is treated as Confidential</div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <!-- ================= FORM VIEW ================= -->
+    <div id="formView">
+      <div class="stepper-card">
+        <ol class="stepper" id="stepper"></ol>
+        <div class="pbar"><i id="pfill"></i></div>
+        <div class="pmeta"><span id="ptext"></span><span id="ppct"></span></div>
+      </div>
+
+      <section class="card">
+        <div id="banner" class="banner" role="alert"></div>
+        <h2 id="secTitle"></h2>
+        <p class="desc" id="secDesc"></p>
+        <div class="legend">Fields marked with <span class="star">*</span> are <b>mandatory</b>. Fields without an asterisk are optional. You can submit this form <b>only once</b> per email ID.</div>
+        <div id="stepBody"></div>
+        <div class="nav">
+          <button class="btn btn-ghost" id="btnPrev" type="button">← Previous</button>
+          <div style="flex:1"></div>
+          <button class="btn btn-primary" id="btnNext" type="button">Next →</button>
+          <button class="btn btn-primary btn-submit hidden" id="btnSubmit" type="button">✔ Submit Final Response</button>
+        </div>
+        <div class="draftbar"><span id="draftInfo">Your progress is saved automatically on this device.</span><button class="linkbtn" id="btnReset" type="button">Clear &amp; start over</button></div>
+      </section>
+    </div>
+
+    <!-- ================= DONE VIEW ================= -->
+    <div id="doneView" class="hidden">
+      <section class="card done">
+        <div class="tick">✓</div>
+        <h2>Response submitted successfully</h2>
+        <p id="doneMsg"></p>
+        <div class="recbox" id="recbox"></div>
+        <div class="actions">
+          <button class="btn btn-print" id="btnPrint" type="button">🖨 Print / Save as PDF</button>
+          <button class="btn btn-ghost" id="btnJson" type="button">⬇ Download data copy (JSON)</button>
+        </div>
+        <p style="font-size:13px;margin-top:22px">Print the PDF, sign it in the space provided and hand it over / share it with HR.<br>
+          <button class="linkbtn" id="btnNew" type="button">Not you? Start a new application for a different candidate</button></p>
+      </section>
+    </div>
+  </main>
+</div>
+
+<!-- Confirm modal -->
+<div class="modal-back" id="modalBack">
+  <div class="modal" role="dialog" aria-modal="true">
+    <h3 id="mTitle">Submit final response?</h3>
+    <p id="mText">You can submit this form only once for this email ID. Please make sure everything is correct.</p>
+    <div class="row"><button class="btn btn-ghost" id="mCancel" type="button">Go back &amp; review</button><button class="btn btn-primary btn-submit" id="mOk" type="button">Yes, submit</button></div>
+  </div>
+</div>
+
+<!-- Admin / log modal (open with #admin in the URL) -->
+<div class="modal-back" id="adminBack">
+  <div class="modal wide">
+    <h3>Local submission log</h3>
+    <p>Records stored in <b>this browser only</b>. The master data lives in your Google Sheet once the backend is connected.</p>
+    <div id="adminBody"></div>
+    <div class="row"><button class="btn btn-ghost" id="aRetry" type="button">Retry pending sync</button><button class="btn btn-ghost" id="aCsv" type="button">Export CSV</button><button class="btn btn-ghost" id="aJson" type="button">Export JSON</button><button class="btn btn-primary" id="aClose" type="button">Close</button></div>
+  </div>
+</div>
+
+<!-- Print-only formal document -->
+<div id="printArea"></div>
+
+<script>
+(function(){
+'use strict';
+
+/* =====================================================================
+   CONFIG  – edit these values
+   ===================================================================== */
+const CONFIG = {
+  COMPANY_NAME : 'Shield',
+  FORM_VERSION : '1.0',
+  ENDPOINT_URL : 'https://script.google.com/macros/s/AKfycbxn9x335V_F6ycoyvFOh2VSePoQs4DrUH3z-O0RTtq_oHrs210FelhdGFi4Tw4c7SkC8g/exec',          // paste your Apps Script Web App URL here (see README). Empty = local-only mode.
+  ENDPOINT_TOKEN : 'NOTIFY_HR_EMAIL', // must match TOKEN in the Apps Script
+  STORAGE_PREFIX : 'shieldForm.v1.'
+};
+
+/* =====================================================================
+   Helpers
+   ===================================================================== */
+const $ = (s,r=document)=>r.querySelector(s);
+const esc = s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const pad = n=>String(n).padStart(2,'0');
+const todayISO = ()=>{const d=new Date();return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());};
+const LS = {
+  get(k,d){try{const v=localStorage.getItem(CONFIG.STORAGE_PREFIX+k);return v?JSON.parse(v):d;}catch(e){return d;}},
+  set(k,v){try{localStorage.setItem(CONFIG.STORAGE_PREFIX+k,JSON.stringify(v));return true;}catch(e){return false;}},
+  del(k){try{localStorage.removeItem(CONFIG.STORAGE_PREFIX+k);}catch(e){}}
+};
+function calcAge(iso){
+  if(!iso) return '';
+  const b=new Date(iso+'T00:00:00'); if(isNaN(b)) return '';
+  const n=new Date(); let a=n.getFullYear()-b.getFullYear();
+  const m=n.getMonth()-b.getMonth(); if(m<0||(m===0&&n.getDate()<b.getDate())) a--;
+  return a>=0?String(a):'';
+}
+
+/* =====================================================================
+   Value validators (used by field / table-cell "v" property)
+   ===================================================================== */
+const VAL = {
+  mobile : v=>/^[6-9]\d{9}$/.test(v)?'':'Enter a valid 10-digit mobile number',
+  email  : v=>/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)?'':'Enter a valid email address',
+  pan    : v=>/^[A-Z]{5}[0-9]{4}[A-Z]$/.test(v.toUpperCase())?'':'Invalid PAN. Format: ABCDE1234F',
+  aadhar : v=>/^\d{12}$/.test(v.replace(/\s/g,''))?'':'Aadhar number must be 12 digits',
+  ifsc   : v=>/^[A-Z]{4}0[A-Z0-9]{6}$/.test(v.toUpperCase())?'':'Invalid IFSC. Format: ABCD0123456',
+  account: v=>/^\d{6,20}$/.test(v)?'':'Enter digits only (6 to 20 digits)',
+  uan    : v=>/^\d{12}$/.test(v)?'':'UAN must be 12 digits',
+  dob    : v=>{const a=parseInt(calcAge(v),10);return (isNaN(a)||a<15||a>80)?'Please check the date of birth':'';},
+  year   : v=>(/^(19|20)\d{2}$/.test(v)&&+v<=new Date().getFullYear()+1)?'':'Enter a valid year (e.g. 2021)',
+};
+
+/* =====================================================================
+   FORM DEFINITION  (derived from the supplied DOCX)
+   req:true  => label ends with * (mandatory).  No req => optional.
+   ===================================================================== */
+const YN=['Yes','No'];
+const F=(id,label,o={})=>Object.assign({id,label,type:'text',w:6},o);
+
+const SECTIONS = [
+ { id:'personal', short:'Personal', title:'Section 1 · Personal Details', desc:'Application details, personal information, addresses and emergency contact.',
+   blocks:[
+    {title:'Application Details', fields:[
+      F('position','Position Applied for',{req:true}),
+      F('jobLocation','Job Location',{req:true}),
+      F('referredBy','Referred by'),
+      F('jobCode','Job Code')
+    ]},
+    {title:'A. Personal Details', fields:[
+      F('fullName','Name',{req:true,w:12}),
+      F('dob','Date of Birth',{type:'date',req:true,w:4,v:'dob'}),
+      F('gender','Sex',{type:'select',options:['Male','Female'],req:true,w:4}),
+      F('marital','Marital Status',{type:'select',options:['Single','Married','Divorced','Widowed','Separated'],req:true,w:4}),
+      F('age','Age',{type:'text',readonly:true,req:true,w:4,hint:'Calculated automatically from Date of Birth'}),
+      F('blood','Blood Group',{type:'select',options:['A+','A-','B+','B-','AB+','AB-','O+','O-'],req:true,w:4}),
+      F('motherTongue','Mother Tongue',{req:true,w:4}),
+      F('placeOfBirth','Place of Birth',{req:true,w:4}),
+      F('height','Height (Cm)',{type:'number',w:4,min:50,max:250}),
+      F('weight','Weight (Kg)',{type:'number',w:4,min:20,max:300}),
+      F('mobile','Mobile No',{type:'tel',req:true,w:4,v:'mobile',digits:true,maxlength:10}),
+      F('whatsapp','WhatsApp No',{type:'tel',req:true,w:4,v:'mobile',digits:true,maxlength:10,same:{id:'waSame',label:'Same as mobile number'}}),
+      F('religion','Religion',{req:true,w:4}),
+      F('identMark','Identification Mark',{req:true,w:12}),
+      F('email','Email ID',{type:'email',req:true,w:12,v:'email',lower:true,hint:'Only ONE response is accepted per email ID. This email is your unique application key.'}),
+      F('pan','Pan Card No',{req:true,w:6,v:'pan',upper:true,maxlength:10}),
+      F('aadhar','Aadhar No',{req:true,w:6,v:'aadhar',digits:true,maxlength:12,inputmode:'numeric'}),
+      F('twoWheeler','Do you have two wheeler (Yes/No)',{type:'radio',options:YN,req:true,rerender:true}),
+      F('dl','Driving license No',{req:d=>d.twoWheeler==='Yes',upper:true,hint:'Mandatory if you own a two wheeler'})
+    ]},
+    {title:'Addresses', fields:[
+      F('presentAddress','Present Address',{type:'textarea',req:true,w:8}),
+      F('presentContact','Present Address – Contact No',{type:'tel',req:true,w:4,v:'mobile',digits:true,maxlength:10}),
+      F('permAddress','Permanent Address',{type:'textarea',w:8,same:{id:'permSame',label:'Same as present address'}}),
+      F('permContact','Permanent Address – Contact No',{type:'tel',w:4,v:'mobile',digits:true,maxlength:10})
+    ]},
+    {title:'Emergency Contact (Name & Contact No)', fields:[
+      F('emName','Name',{req:true,w:4}),
+      F('emContact','Contact No',{type:'tel',req:true,w:4,v:'mobile',digits:true,maxlength:10}),
+      F('emRelation','Relationship',{req:true,w:4})
+    ]}
+ ]},
+
+ { id:'family', short:'Family', title:'Section 2 · Family Details', desc:'Family members and any relatives currently working with the company.',
+   blocks:[
+    {title:'Details of family members', note:'Start with Father, Mother, Brother, Sister, Spouse &amp; Kids. Add at least one member. Empty rows are ignored.', table:'family', tableRequired:true},
+    {title:'Any of your relatives currently working in Shield?', fields:[
+      F('relatives','Do you have relatives currently working in Shield?',{type:'radio',options:YN,req:true,w:12,rerender:true})
+    ], table:'relatives', tableShowIf:d=>d.relatives==='Yes', tableRequired:true, note:'If yes, provide details below.'}
+ ]},
+
+ { id:'education', short:'Education', title:'Section 3 · Education & Languages', desc:'Qualifications (most recent first) and languages known.',
+   blocks:[
+    {title:'B. Educational Qualifications', note:'Starting with the most recent one. Add at least one qualification.', table:'education', tableRequired:true},
+    {title:'Languages Known', note:'Tick at least one skill for at least one language. Use the last row for any other language.', table:'languages', tableRequired:true}
+ ]},
+
+ { id:'work', short:'Work & Bank', title:'Section 4 · Work Experience, Bank & References', desc:'Employment history, statutory numbers, bank account and two verification references.',
+   blocks:[
+    {title:'C. Work Experience', note:'Starting with the most recent company. Optional – tick the box below if you are a fresher.', fields:[
+      F('fresher','I am a fresher (no prior work experience)',{type:'check',w:12,rerender:true})
+    ], table:'experience', tableShowIf:d=>!d.fresher, tableRequired:false},
+    {title:'If experienced, provide following details', fields:[
+      F('uan','PF UAN No',{w:4,v:'uan',digits:true,maxlength:12}),
+      F('pfNo','PF No',{w:4}),
+      F('esiNo','Esi IP No',{w:4})
+    ]},
+    {title:'Bank Details (as per passbook)', fields:[
+      F('bankHolder','Name of the Person',{req:true,sheet:'Bank',col:'Name of the Person'}),
+      F('bankName','Name of the Bank',{req:true,sheet:'Bank',col:'Name of the Bank'}),
+      F('accountNo','Account No',{req:true,v:'account',digits:true,maxlength:20,sheet:'Bank',col:'Account No'}),
+      F('ifsc','IFSC Code with Branch',{req:true,v:'ifsc',upper:true,sheet:'Bank',col:'IFSC Code with Branch',hint:'Enter the 11-character IFSC code'})
+    ]},
+    {title:'Reference 1 – VERY IMPORTANT', note:'Current/previous Reporting Manager, HR Manager, College Professor, HOD, or a well-known friend / relative.', fields:[
+      F('r1Name','Name',{req:true,sheet:'References',ref:1,col:'Name'}),
+      F('r1Rel','Relationship',{req:true,sheet:'References',ref:1,col:'Relationship'}),
+      F('r1Mob','Mob No',{type:'tel',req:true,v:'mobile',digits:true,maxlength:10,sheet:'References',ref:1,col:'Mob No'}),
+      F('r1City','City Name',{req:true,sheet:'References',ref:1,col:'City Name'})
+    ]},
+    {title:'Reference 2 – VERY IMPORTANT', fields:[
+      F('r2Name','Name',{req:true,sheet:'References',ref:2,col:'Name'}),
+      F('r2Rel','Relationship',{req:true,sheet:'References',ref:2,col:'Relationship'}),
+      F('r2Mob','Mob No',{type:'tel',req:true,v:'mobile',digits:true,maxlength:10,sheet:'References',ref:2,col:'Mob No'}),
+      F('r2City','City Name',{req:true,sheet:'References',ref:2,col:'City Name'})
+    ]}
+ ]},
+
+ { id:'reflect', short:'Self-Reflection', title:'Section 5 · Assessment Phase – Self-Reflection', desc:'The objective of these questions is to trigger self-reflection; there are no right and wrong answers. Please be thoughtful and candid with yourself while responding.',
+   blocks:[ {title:'Self-Reflection Questions', fields:[
+      ['What do you like about yourself?',1],
+      ['What makes you angry? How do you deal with Anger?',0],
+      ['What makes you sad, How do you deal with sadness?',0],
+      ['What is success according to you?',0],
+      ['According to your definition of success list the names of people whom you consider successful. (the list may contain names of people from your family, friends, relatives or anyone whom you consider successful)',1],
+      ['What do you think is stopping you from achieving the success you desire?',1],
+      ['What do you want in your life? (feel free to write the list in terms of materialistic as well as non-materialistic)',0],
+      ['If you are given a chance to change this whole world what will you change?',0],
+      ['If you were to change one thing about yourself, what would it be?',0],
+      ['What do you do with your free time?',0],
+      ['In your life who is the person whom you respect most? Why?',1],
+      ['What new do you want to learn? Why?',0],
+      ['Whatever money you are earning right now where do you spend it?',1],
+      ['How will you spend your whole day if you have all the money that you desire and all the time that you desire?',1],
+      ['What’s the last mistake you made and what did you learn from it?',0],
+      ['What do you desire to get from your job?',0],
+      ['What is your greatest worry?',0],
+      ['Who has the most inspiring influence upon you? Why?',0],
+      ['List some of your most significant strengths',1],
+      ['What habits of other people annoy you most?',1]
+   ].map((q,i)=>F('q'+(i+1),(i+1)+'. '+q[0],{type:'textarea',w:12,req:!!q[1],qno:i+1,qtext:q[0]})) } ]},
+
+ { id:'submit', short:'Declaration', title:'Section 6 · Review & Declaration', desc:'Review the status of every section, accept the declaration and submit your final response.',
+   blocks:[
+    {title:'Completion Summary', summary:true},
+    {title:'Declaration', fields:[
+      F('decl_agree','Hereby I confirm that to the best of my knowledge the information given on this form is correct.',{type:'check',w:12,req:true,reqMsg:'You must accept the declaration to submit'}),
+      F('decl_name','Name of the Person (typed as your signature)',{req:true}),
+      F('decl_date','Date',{type:'date',readonly:true})
+    ]}
+ ]}
+];
+
+const TABLES = {
+ family:{item:'family member',sheet:'Family',start:3,max:12,add:'+ Add family member',cols:[
+   {k:'name',l:'Name',t:'text',req:true},
+   {k:'dob',l:'DOB',t:'date',req:true},
+   {k:'relationship',l:'Relationship',t:'select',req:true,opts:['Father','Mother','Brother','Sister','Spouse','Son','Daughter','Other']},
+   {k:'occupation',l:'Occupation',t:'text',req:true},
+   {k:'dependent',l:'Whether Dependent',t:'select',req:true,opts:YN}]},
+ relatives:{item:'relative',sheet:'Relatives',start:2,max:6,add:'+ Add relative',cols:[
+   {k:'name',l:'Name',t:'text',req:true},
+   {k:'relationship',l:'Relationship',t:'text',req:true},
+   {k:'designation',l:'Designation',t:'text',req:true},
+   {k:'location',l:'Location',t:'text',req:true}]},
+ education:{item:'qualification',sheet:'Education',start:4,max:10,add:'+ Add qualification',cols:[
+   {k:'course',l:'Course Studied',t:'text',req:true},
+   {k:'stream',l:'Stream',t:'text',req:true},
+   {k:'institute',l:'School / College / Institute',t:'text',req:true},
+   {k:'percent',l:'% Scored',t:'text',req:true},
+   {k:'year',l:'Year of Passing',t:'text',req:true,v:'year'}]},
+ languages:{item:'language',sheet:'Languages',custom:'languages',fixed:true,cols:[
+   {k:'language',l:'Language',t:'text'},
+   {k:'read',l:'To Read',t:'check'},
+   {k:'write',l:'To Write',t:'check'},
+   {k:'speak',l:'To Speak',t:'check'}]},
+ experience:{item:'employer',sheet:'Experience',start:3,max:8,add:'+ Add employer',cols:[
+   {k:'employer',l:'Name & Address of the Employer',t:'text',req:true},
+   {k:'designation',l:'Designation',t:'text',req:true},
+   {k:'from',l:'Employment From',t:'date',req:true},
+   {k:'to',l:'Employment To',t:'date',req:true},
+   {k:'reason',l:'Reason for Resignation',t:'text'},
+   {k:'ctc',l:'CTC details',t:'text'}]}
+};
+
+/* "Same as" copy rules */
+const SAME = {
+  waSame :{whatsapp:'mobile'},
+  permSame:{permAddress:'presentAddress',permContact:'presentContact'}
+};
+
+const FIELDS = {}; const ALLFIELDS=[];
+SECTIONS.forEach(s=>s.blocks.forEach(b=>(b.fields||[]).forEach(f=>{FIELDS[f.id]=f;ALLFIELDS.push(f);if(f.same)FIELDS[f.same.id]={id:f.same.id,type:'check',samePseudo:true};})));
+
+/* =====================================================================
+   State
+   ===================================================================== */
+let state;
+function blankRows(tid){
+  const T=TABLES[tid];
+  if(T.custom==='languages') return [{language:'Hindi'},{language:'English'},{language:''}];
+  return Array.from({length:T.start},()=>({}));
+}
+function freshState(){
+  const t={}; Object.keys(TABLES).forEach(k=>t[k]=blankRows(k));
+  return {step:0,maxStep:0,data:{decl_date:todayISO()},tables:t,errs:{},tblErr:{},submitting:false};
+}
+function saveDraft(){
+  const ok=LS.set('draft',{step:state.step,maxStep:state.maxStep,data:state.data,tables:state.tables,savedAt:Date.now()});
+  const el=$('#draftInfo'); if(el&&ok){const d=new Date();el.textContent='Progress saved on this device at '+pad(d.getHours())+':'+pad(d.getMinutes())+':'+pad(d.getSeconds());}
+}
+function loadDraft(){
+  const d=LS.get('draft',null); if(!d) return false;
+  state.step=Math.min(d.step||0,SECTIONS.length-1); state.maxStep=Math.min(d.maxStep||0,SECTIONS.length-1);
+  state.data=Object.assign(state.data,d.data||{});
+  Object.keys(TABLES).forEach(k=>{ if(Array.isArray(d.tables&&d.tables[k])&&d.tables[k].length) state.tables[k]=d.tables[k]; });
+  return true;
+}
+
+/* =====================================================================
+   Validation
+   ===================================================================== */
+const isReq=f=>typeof f.req==='function'?!!f.req(state.data):!!f.req;
+const isVisible=f=>!f.showIf||f.showIf(state.data);
+
+function fieldError(f){
+  if(!isVisible(f)) return '';
+  const raw=state.data[f.id];
+  if(f.type==='check'){ return (isReq(f)&&!raw)?(f.reqMsg||'This is required'):''; }
+  const val=String(raw==null?'':raw).trim();
+  if(!val){
+    if(!isReq(f)) return '';
+    return (f.type==='select'||f.type==='radio')?'Please select an option':'This field is required';
+  }
+  if(f.v&&VAL[f.v]){const m=VAL[f.v](val);if(m)return m;}
+  if(f.type==='number'){const n=+val;if(isNaN(n)||(f.min!=null&&n<f.min)||(f.max!=null&&n>f.max))return 'Enter a valid value';}
+  return '';
+}
+function paintField(f,msg){
+  const w=document.getElementById('w_'+f.id); if(!w) return;
+  w.classList.toggle('has-error',!!msg);
+  const e=document.getElementById('e_'+f.id); if(e) e.textContent=msg||'';
+}
+function cellHasValue(T,r,c){ return c.t==='check'?!!r[c.k]:String(r[c.k]==null?'':r[c.k]).trim()!==''; }
+
+function validateTable(tid,required){
+  const T=TABLES[tid], rows=state.tables[tid]; const cells=new Set(); let msg='', complete=0;
+  if(T.custom==='languages'){
+    let anyOk=false;
+    rows.forEach((r,i)=>{
+      const skill=r.read||r.write||r.speak, name=String(r.language||'').trim();
+      if(skill&&!name){cells.add(i+':language');}
+      if(skill&&name) anyOk=true;
+    });
+    if(cells.size) msg='Enter the language name for the ticked row.';
+    else if(!anyOk){msg='Select at least one language and tick how you can use it (Read / Write / Speak).'; cells.add('0:language');}
+    return {bad:!!msg,cells,msg};
+  }
+  rows.forEach((r,i)=>{
+    const any=T.cols.some(c=>cellHasValue(T,r,c)); if(!any) return;
+    let bad=false;
+    T.cols.forEach(c=>{
+      const v=String(r[c.k]==null?'':r[c.k]).trim();
+      if(c.req&&!v){cells.add(i+':'+c.k);bad=true;}
+      else if(v&&c.v&&VAL[c.v]&&VAL[c.v](v)){cells.add(i+':'+c.k);bad=true;}
+    });
+    if(!bad) complete++;
+  });
+  if(cells.size) msg='Please complete or correct the highlighted cells (or clear the row).';
+  else if(required&&complete===0){
+    msg='Please add at least one '+T.item+'. Mandatory columns are marked with *.';
+    T.cols.forEach(c=>{if(c.req)cells.add('0:'+c.k);});
+  }
+  return {bad:!!msg,cells,msg};
+}
+function paintTable(tid){
+  const info=state.tblErr[tid]||{cells:new Set(),msg:''};
+  const box=document.getElementById('tbl_'+tid); if(!box) return;
+  box.classList.toggle('has-error',!!info.msg);
+  box.querySelectorAll('[data-t]').forEach(el=>{
+    el.classList.toggle('bad',info.cells.has(el.dataset.r+':'+el.dataset.c));
+  });
+  const e=document.getElementById('te_'+tid); if(e) e.textContent=info.msg||'';
+}
+
+/* Returns list of {id} errors for a section. paint=true updates state + DOM */
+function sectionErrors(i,paint){
+  const errs=[];
+  SECTIONS[i].blocks.forEach(b=>{
+    (b.fields||[]).forEach(f=>{
+      const m=fieldError(f);
+      if(paint){ if(m) state.errs[f.id]=m; else delete state.errs[f.id]; paintField(f,m); }
+      if(m) errs.push({id:'f_'+f.id});
+    });
+    if(b.table&&(!b.tableShowIf||b.tableShowIf(state.data))){
+      const r=validateTable(b.table,!!b.tableRequired);
+      if(paint){ if(r.bad) state.tblErr[b.table]=r; else delete state.tblErr[b.table]; paintTable(b.table); }
+      if(r.bad) errs.push({id:'tbl_'+b.table});
+    }
+  });
+  return errs;
+}
+
+/* =====================================================================
+   Rendering
+   ===================================================================== */
+function fieldHTML(f){
+  if(!isVisible(f)) return '';
+  const v=state.data[f.id]; const val=v==null?'':v; const req=isReq(f); const msg=state.errs[f.id]||'';
+  const star=req?'<span class="star">*</span>':'';
+  const sameOn=f.same&&state.data[f.same.id];
+  const ro=(f.readonly||sameOn)?' readonly':'';
+  let ctl='';
+  const attrs=`id="f_${f.id}" data-f="${f.id}"`;
+  if(f.type==='textarea'){
+    ctl=`<textarea ${attrs}${ro} placeholder="${f.qno?'Type your answer here…':''}">${esc(val)}</textarea>`;
+  }else if(f.type==='select'){
+    ctl=`<select ${attrs}><option value="">Select…</option>${f.options.map(o=>`<option${o===val?' selected':''}>${esc(o)}</option>`).join('')}</select>`;
+  }else if(f.type==='radio'){
+    ctl=`<div class="opts" id="f_${f.id}">${f.options.map(o=>`<label class="opt"><input type="radio" name="r_${f.id}" data-f="${f.id}" value="${esc(o)}"${o===val?' checked':''}>${esc(o)}</label>`).join('')}</div>`;
+  }else if(f.type==='check'){
+    return `<div class="field w${f.w}${msg?' has-error':''}" id="w_${f.id}"><label class="chk"><input type="checkbox" id="f_${f.id}" data-f="${f.id}"${val?' checked':''}><span>${esc(f.label)}${star}</span></label><div class="err" id="e_${f.id}">${esc(msg)}</div></div>`;
+  }else{
+    const t=f.type==='number'?'number':f.type;
+    ctl=`<input type="${t}" ${attrs}${ro} value="${esc(val)}"${f.maxlength?` maxlength="${f.maxlength}"`:''}${f.inputmode?` inputmode="${f.inputmode}"`:(f.digits?' inputmode="numeric"':'')}${f.min!=null?` min="${f.min}"`:''}${f.max!=null?` max="${f.max}"`:''}${f.id==='dob'?` max="${todayISO()}"`:''} autocomplete="off">`;
+  }
+  const same=f.same?`<label class="chk same"><input type="checkbox" data-f="${f.same.id}"${sameOn?' checked':''}><span>${esc(f.same.label)}</span></label>`:'';
+  return `<div class="field w${f.w}${msg?' has-error':''}" id="w_${f.id}"><label class="lab" for="f_${f.id}">${esc(f.label)}${star}</label>${ctl}${same}${f.hint?`<div class="hint">${esc(f.hint)}</div>`:''}<div class="err" id="e_${f.id}">${esc(msg)}</div></div>`;
+}
+
+function tableHTML(tid){
+  const T=TABLES[tid], rows=state.tables[tid], info=state.tblErr[tid]||{cells:new Set(),msg:''};
+  const head=T.cols.map(c=>`<th>${esc(c.l)}${c.req?'<span class="star">*</span>':''}</th>`).join('');
+  const body=rows.map((r,i)=>{
+    const tds=T.cols.map(c=>{
+      const v=r[c.k]==null?'':r[c.k]; const bad=info.cells.has(i+':'+c.k)?' bad':'';
+      const at=`data-t="${tid}" data-r="${i}" data-c="${c.k}"`;
+      if(c.t==='check') return `<td class="ck"><input type="checkbox" ${at}${v?' checked':''} aria-label="${esc(c.l)}"></td>`;
+      if(c.t==='select') return `<td><select ${at} class="${bad}"><option value="">Select…</option>${c.opts.map(o=>`<option${o===v?' selected':''}>${esc(o)}</option>`).join('')}</select></td>`;
+      const ro=(T.custom==='languages'&&c.k==='language'&&i<2)?' readonly style="background:#f1f4f9;font-weight:600"':'';
+      const ph=(T.custom==='languages'&&c.k==='language'&&i===2)?' placeholder="Other: type language"':'';
+      return `<td><input type="${c.t}" ${at} class="${bad}" value="${esc(v)}"${ro}${ph}${c.t==='date'?` max="${todayISO()}"`:''}></td>`;
+    }).join('');
+    const rm=T.fixed?'<td></td>':`<td><button class="rm" type="button" data-act="del" data-tid="${tid}" data-r="${i}" title="Remove row" aria-label="Remove row">×</button></td>`;
+    return `<tr><td class="no">${i+1}</td>${tds}${rm}</tr>`;
+  }).join('');
+  const add=(!T.fixed&&rows.length<T.max)?`<button class="add" type="button" data-act="add" data-tid="${tid}">${T.add}</button>`:'';
+  return `<div class="tbl${info.msg?' has-error':''}" id="tbl_${tid}"><div class="tbl-wrap"><table><thead><tr><th>#</th>${head}<th></th></tr></thead><tbody>${body}</tbody></table></div>${add}<div class="err" id="te_${tid}">${esc(info.msg)}</div></div>`;
+}
+
+function summaryHTML(){
+  const rows=SECTIONS.slice(0,5).map((s,i)=>{
+    const n=sectionErrors(i,false).length;
+    return `<tr><td><b>${esc(s.title)}</b></td><td style="text-align:right">${n?`<span class="pill no">${n} item(s) pending</span> <button class="linkbtn" data-act="goto" data-step="${i}">Fix</button>`:'<span class="pill ok">✓ Complete</span>'}</td></tr>`;
+  }).join('');
+  return `<table class="sumtable">${rows}</table>`;
+}
+
+function blockHTML(b){
+  const show=!b.table||!b.tableShowIf||b.tableShowIf(state.data);
+  let h=`<div class="block"><h3>${esc(b.title)}</h3>`;
+  if(b.note) h+=`<p class="note">${b.note}</p>`;
+  if(b.summary) h+=summaryHTML();
+  if(b.fields) h+=`<div class="grid">${b.fields.map(fieldHTML).join('')}</div>`;
+  if(b.table&&show) h+=`<div style="margin-top:${b.fields?14:0}px" id="tw_${b.table}">${tableHTML(b.table)}</div>`;
+  return h+'</div>';
+}
+function renderBody(){
+  const sec=SECTIONS[state.step];
+  state.data.decl_date=state.data.decl_date||todayISO();
+  $('#stepBody').innerHTML=sec.blocks.map(blockHTML).join('');
+}
+function renderChrome(){
+  const n=SECTIONS.length, sec=SECTIONS[state.step];
+  $('#secTitle').textContent=sec.title; $('#secDesc').textContent=sec.desc;
+  $('#stepper').innerHTML=SECTIONS.map((s,i)=>{
+    const cls=(i===state.step?'active':(i<state.step||i<state.maxStep?'done':''))+(i>state.maxStep?' locked':'');
+    return `<li class="${cls}"><button type="button" data-act="goto" data-step="${i}" ${i>state.maxStep?'tabindex="-1"':''}><span class="dot">${i<state.step&&i<=state.maxStep?'✓':i+1}</span><span class="lbl">${esc(s.short)}</span></button></li>`;
+  }).join('');
+  $('#pfill').style.width=((state.step+1)/n*100)+'%';
+  $('#ptext').innerHTML=`<b>Step ${state.step+1} of ${n}</b> · ${esc(sec.short)}`;
+  $('#ppct').textContent=Math.round((state.step)/(n-1)*100)+'% of sections passed';
+  $('#btnPrev').classList.toggle('hidden',state.step===0);
+  const last=state.step===n-1;
+  $('#btnNext').classList.toggle('hidden',last); $('#btnSubmit').classList.toggle('hidden',!last);
+}
+function render(scrollTop){
+  renderChrome(); renderBody(); hideBanner();
+  if(scrollTop) window.scrollTo({top:0,behavior:'smooth'});
+}
+function go(i,scrollTop=true){
+  state.step=i; state.maxStep=Math.max(state.maxStep,i); saveDraft(); render(scrollTop);
+}
+function showBanner(msg,info){const b=$('#banner');b.textContent=msg;b.className='banner show'+(info?' info':'');}
+function hideBanner(){$('#banner').className='banner';}
+function focusFirst(err){
+  const el=document.getElementById(err.id); if(!el) return;
+  const target=el.matches('input,select,textarea')?el:(el.querySelector('input,select,textarea')||el);
+  el.scrollIntoView({behavior:'smooth',block:'center'});
+  setTimeout(()=>{try{target.focus({preventScroll:true});}catch(e){}},300);
+}
+
+/* =====================================================================
+   Events
+   ===================================================================== */
+function applySame(changedId){
+  Object.keys(SAME).forEach(cb=>{
+    if(!state.data[cb]) return;
+    const map=SAME[cb];
+    Object.keys(map).forEach(t=>{
+      if(changedId===cb||changedId===map[t]){
+        state.data[t]=state.data[map[t]]||'';
+        const el=document.getElementById('f_'+t); if(el) el.value=state.data[t];
+        if(state.errs[t]!==undefined){const m=fieldError(FIELDS[t]);if(m)state.errs[t]=m;else delete state.errs[t];paintField(FIELDS[t],m);}
+      }
+    });
+  });
+}
+function onField(t){
+  const id=t.dataset.f, f=FIELDS[id]; if(!f) return;
+  let v;
+  if(t.type==='checkbox') v=t.checked;
+  else if(t.type==='radio'){ if(!t.checked) return; v=t.value; }
+  else v=t.value;
+  if(typeof v==='string'){
+    if(f.digits){const c=v.replace(/\D/g,'');if(c!==v){v=c;t.value=c;}}
+    if(f.upper){const p=t.selectionStart;v=v.toUpperCase();t.value=v;try{t.setSelectionRange(p,p);}catch(e){}}
+    if(f.lower){v=v.toLowerCase();if(t.value!==v){const p=t.selectionStart;t.value=v;try{t.setSelectionRange(p,p);}catch(e){}}}
+  }
+  state.data[id]=v;
+  if(id==='dob'){state.data.age=calcAge(v);const a=document.getElementById('f_age');if(a)a.value=state.data.age;
+    if(state.errs.age){delete state.errs.age;paintField(FIELDS.age,'');}}
+  applySame(id);
+  if(!f.samePseudo&&state.errs[id]!==undefined){const m=fieldError(f);if(m)state.errs[id]=m;else delete state.errs[id];paintField(f,m);}
+  if(id==='email'&&state.errs.email==='__dup__'){delete state.errs.email;}
+  if(f.rerender){ const sy=window.scrollY; renderBody(); window.scrollTo(0,sy); }
+  saveDraft();
+}
+function onCell(t){
+  const tid=t.dataset.t, r=+t.dataset.r, c=t.dataset.c;
+  state.tables[tid][r][c]=t.type==='checkbox'?t.checked:t.value;
+  if(state.tblErr[tid]){
+    const T=TABLES[tid]; const req=tid==='languages'||!!findTableBlock(tid).tableRequired;
+    const res=validateTable(tid,req);
+    if(res.bad) state.tblErr[tid]=res; else delete state.tblErr[tid];
+    paintTable(tid);
+  }
+  saveDraft();
+}
+function findTableBlock(tid){let r=null;SECTIONS.forEach(s=>s.blocks.forEach(b=>{if(b.table===tid)r=b;}));return r;}
+
+$('#stepBody').addEventListener('input',e=>{const t=e.target;if(t.dataset.f)onField(t);else if(t.dataset.t)onCell(t);});
+$('#stepBody').addEventListener('change',e=>{const t=e.target;if(t.dataset.f)onField(t);else if(t.dataset.t)onCell(t);});
+$('#stepBody').addEventListener('focusout',e=>{
+  const t=e.target; const id=t.dataset&&t.dataset.f; if(!id||t.type==='radio') return;
+  const f=FIELDS[id]; if(!f||f.samePseudo||f.readonly) return;
+  const m=fieldError(f); if(m) state.errs[id]=m; else delete state.errs[id]; paintField(f,m);
+});
+$('#stepBody').addEventListener('click',e=>{
+  const b=e.target.closest('[data-act]'); if(!b) return;
+  const act=b.dataset.act, tid=b.dataset.tid;
+  if(act==='add'){const T=TABLES[tid];if(state.tables[tid].length<T.max){state.tables[tid].push({});$('#tw_'+tid).innerHTML=tableHTML(tid);saveDraft();}}
+  else if(act==='del'){
+    const rows=state.tables[tid]; rows.splice(+b.dataset.r,1);
+    if(!rows.length) rows.push({});
+    delete state.tblErr[tid]; $('#tw_'+tid).innerHTML=tableHTML(tid); saveDraft();
+  }
+  else if(act==='goto'){ go(+b.dataset.step); }
+});
+$('#stepper').addEventListener('click',e=>{
+  const b=e.target.closest('[data-act="goto"]'); if(!b) return;
+  const i=+b.dataset.step; if(i<=state.maxStep&&i!==state.step) go(i);
+});
+
+/* ---- Duplicate email: local + (optional) server pre-check ---- */
+function localEmailUsed(email){
+  const m=LS.get('submitted',{}); return !!m[(email||'').toLowerCase()];
+}
+async function remoteEmailUsed(email){
+  if(!CONFIG.ENDPOINT_URL) return false;
+  try{
+    const u=CONFIG.ENDPOINT_URL+(CONFIG.ENDPOINT_URL.includes('?')?'&':'?')+'action=check&token='+encodeURIComponent(CONFIG.ENDPOINT_TOKEN)+'&email='+encodeURIComponent(email);
+    const r=await fetch(u); const j=await r.json(); return !!(j&&j.exists);
+  }catch(e){ return false; /* server re-checks on final submit */ }
+}
+function flagEmailDuplicate(){
+  const f=FIELDS.email, msg='A response has already been submitted with this email ID. Only one response per email is allowed.';
+  state.errs.email=msg; paintField(f,msg); showBanner(msg); focusFirst({id:'f_email'});
+}
+
+async function next(){
+  const errs=sectionErrors(state.step,true);
+  if(errs.length){
+    showBanner('Please fill the '+errs.length+' mandatory item(s) highlighted in red before continuing.');
+    focusFirst(errs[0]); return;
+  }
+  if(state.step===0){
+    const email=(state.data.email||'').toLowerCase();
+    const btn=$('#btnNext'); btn.disabled=true; const old=btn.innerHTML; btn.innerHTML='<span class="spin"></span>Checking…';
+    const dup=localEmailUsed(email)||await remoteEmailUsed(email);
+    btn.disabled=false; btn.innerHTML=old;
+    if(dup){flagEmailDuplicate();return;}
+  }
+  go(state.step+1);
+}
+$('#btnNext').addEventListener('click',next);
+$('#btnPrev').addEventListener('click',()=>{if(state.step>0)go(state.step-1);});
+$('#btnReset').addEventListener('click',()=>{
+  if(confirm('This will erase everything you have entered so far on this device. Continue?')){
+    LS.del('draft'); state=freshState(); render(true);
+  }
+});
+
+/* =====================================================================
+   Modal
+   ===================================================================== */
+function confirmModal(title,text,okLabel){
+  return new Promise(res=>{
+    $('#mTitle').textContent=title; $('#mText').textContent=text; $('#mOk').textContent=okLabel;
+    const back=$('#modalBack'); back.classList.add('show');
+    const done=v=>{back.classList.remove('show');$('#mOk').onclick=$('#mCancel').onclick=null;res(v);};
+    $('#mOk').onclick=()=>done(true); $('#mCancel').onclick=()=>done(false);
+  });
+}
+
+/* =====================================================================
+   Build record  (SINGLE source of truth for log, Sheet and PDF)
+   ===================================================================== */
+function norm(f,v){
+  if(f.type==='check') return v?'Yes':'No';
+  v=String(v==null?'':v).trim();
+  if(f.id==='aadhar') v=v.replace(/\s/g,'');
+  if(f.id==='email') v=v.toLowerCase();
+  if(f.upper) v=v.toUpperCase();
+  return v;
+}
+function uuid(){
+  const t=new Date(); const s=t.getFullYear()+pad(t.getMonth()+1)+pad(t.getDate());
+  const r=(crypto.getRandomValues?Array.from(crypto.getRandomValues(new Uint8Array(4))).map(b=>b.toString(16).padStart(2,'0')).join(''):Math.random().toString(16).slice(2,10)).toUpperCase();
+  return 'APP-'+s+'-'+r;
+}
+function cleanRows(tid){
+  const T=TABLES[tid];
+  return state.tables[tid].filter(r=>T.cols.some(c=>cellHasValue(T,r,c))).map(r=>{
+    const o={}; T.cols.forEach(c=>{o[c.k]=c.t==='check'?(r[c.k]?'Yes':''):String(r[c.k]==null?'':r[c.k]).trim();}); return o;
+  });
+}
+function buildRecord(){
+  const fields={}, reflection=[], declaration={};
+  ALLFIELDS.forEach(f=>{
+    const v=norm(f,state.data[f.id]);
+    if(f.qno) reflection.push({no:f.qno,question:f.qtext,answer:v,mandatory:!!f.req});
+    else if(f.id.indexOf('decl_')===0) declaration[f.id.slice(5)]=v;
+    else fields[f.id]=v;
+  });
+  declaration.date=declaration.date||todayISO();
+  const tables={}; ['family','relatives','education','languages','experience'].forEach(k=>{
+    if(k==='relatives'&&state.data.relatives!=='Yes') tables[k]=[];
+    else if(k==='experience'&&state.data.fresher) tables[k]=[];
+    else tables[k]=cleanRows(k);
+  });
+  tables.languages=tables.languages.filter(r=>r.read||r.write||r.speak);
+  return {
+    meta:{submissionId:uuid(),submittedAt:new Date().toISOString(),formVersion:CONFIG.FORM_VERSION,company:CONFIG.COMPANY_NAME},
+    email:fields.email, fields, tables, reflection, declaration,
+    sync:{status:'pending',message:'',at:null}
+  };
+}
+
+/* Convert to the label-keyed payload expected by the Apps Script (separate sheets) */
+function toServerPayload(rec){
+  const personal={}, bank={}, refs={1:{},2:{}};
+  ALLFIELDS.forEach(f=>{
+    if(f.qno||f.id.indexOf('decl_')===0) return;
+    const v=rec.fields[f.id];
+    if(f.sheet==='Bank') bank[f.col]=v;
+    else if(f.sheet==='References') refs[f.ref][f.col]=v;
+    else personal[f.label]=v;
+  });
+  const T={};
+  Object.keys(rec.tables).forEach(k=>{
+    const def=TABLES[k]; T[def.sheet]=rec.tables[k].map((r,i)=>{const o={'Row No':i+1};def.cols.forEach(c=>{o[c.l]=r[c.k]||'';});return o;});
+  });
+  T.Bank=[bank]; T.References=[Object.assign({'Ref No':1},refs[1]),Object.assign({'Ref No':2},refs[2])];
+  return {
+    token:CONFIG.ENDPOINT_TOKEN,
+    submissionId:rec.meta.submissionId, submittedAt:rec.meta.submittedAt, formVersion:rec.meta.formVersion,
+    email:rec.email, name:rec.fields.fullName, mobile:rec.fields.mobile, position:rec.fields.position, jobLocation:rec.fields.jobLocation,
+    personal, tables:T, reflection:rec.reflection,
+    declaration:{'Accepted':rec.declaration.agree,'Signed Name':rec.declaration.name,'Date':rec.declaration.date}
+  };
+}
+
+/* =====================================================================
+   Submission log / sync
+   ===================================================================== */
+const getLog=()=>LS.get('log',[]);
+const setLog=a=>LS.set('log',a);
+function upsertLog(rec){const l=getLog();const i=l.findIndex(r=>r.meta.submissionId===rec.meta.submissionId);if(i>=0)l[i]=rec;else l.push(rec);setLog(l);}
+function removeFromLog(id){setLog(getLog().filter(r=>r.meta.submissionId!==id));}
+function markSubmitted(email,id){const m=LS.get('submitted',{});m[email.toLowerCase()]=id;LS.set('submitted',m);}
+function unmarkSubmitted(email){const m=LS.get('submitted',{});delete m[email.toLowerCase()];LS.set('submitted',m);}
+
+async function sendToServer(rec){
+  if(!CONFIG.ENDPOINT_URL) return {status:'local-only',message:'Backend not configured – stored on this device only.'};
+  try{
+    const res=await fetch(CONFIG.ENDPOINT_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(toServerPayload(rec))});
+    const j=await res.json();
+    if(j&&j.ok) return {status:'synced',message:j.message||'Saved to central sheet.'};
+    if(j&&j.code==='DUPLICATE') return {status:'duplicate',message:j.message};
+    return {status:'pending',message:(j&&j.message)||'Server rejected the request.'};
+  }catch(e){ return {status:'pending',message:'Network issue – will retry automatically.'}; }
+}
+async function retryPending(){
+  if(!CONFIG.ENDPOINT_URL) return;
+  for(const rec of getLog()){
+    if(rec.sync&&rec.sync.status==='pending'){
+      const r=await sendToServer(rec); rec.sync=Object.assign(r,{at:new Date().toISOString()});
+      upsertLog(rec);
+      if(r.status==='duplicate') unmarkSubmitted(rec.email);
+    }
+  }
+  if(!$('#doneView').classList.contains('hidden')){const last=LS.get('lastId',null);const rec=getLog().find(r=>r.meta.submissionId===last);if(rec)showDone(rec);}
+}
+window.addEventListener('online',retryPending);
+
+/* =====================================================================
+   Submit (the ONLY submit action)
+   ===================================================================== */
+async function doSubmit(){
+  if(state.submitting) return;
+  // 1. validate everything
+  for(let i=0;i<SECTIONS.length;i++){
+    const errs=sectionErrors(i,i===state.step);
+    if(errs.length){
+      if(i!==state.step){ sectionErrors(i,true); go(i); setTimeout(()=>{sectionErrors(i,true);const e=sectionErrors(i,true);if(e.length)focusFirst(e[0]);},60); showBanner('Section "'+SECTIONS[i].short+'" has incomplete mandatory items. Please complete them to submit.'); }
+      else { showBanner('Please fill the '+errs.length+' mandatory item(s) highlighted in red.'); focusFirst(errs[0]); }
+      return;
+    }
+  }
+  const email=(state.data.email||'').toLowerCase();
+  if(localEmailUsed(email)){ go(0); setTimeout(flagEmailDuplicate,80); return; }
+
+  // 2. confirm – one response only
+  const ok=await confirmModal('Submit final response?','You can submit this form only ONCE for '+email+'. After submission it cannot be edited or submitted again. Please confirm that all details are correct.','Yes, submit final response');
+  if(!ok) return;
+
+  // 3. lock UI immediately (prevents double click)
+  state.submitting=true;
+  const btn=$('#btnSubmit'); btn.disabled=true; btn.innerHTML='<span class="spin"></span>Submitting…'; $('#btnPrev').disabled=true;
+
+  const rec=buildRecord();
+  markSubmitted(email,rec.meta.submissionId);
+  upsertLog(rec);                       // safe local copy first
+  const r=await sendToServer(rec);      // then central sheet (if configured)
+
+  if(r.status==='duplicate'){
+    removeFromLog(rec.meta.submissionId); unmarkSubmitted(email);
+    state.submitting=false; btn.disabled=false; btn.textContent='✔ Submit Final Response'; $('#btnPrev').disabled=false;
+    go(0); setTimeout(flagEmailDuplicate,80); return;
+  }
+  rec.sync=Object.assign(r,{at:new Date().toISOString()}); upsertLog(rec);
+  LS.set('lastId',rec.meta.submissionId); LS.del('draft');
+  state.submitting=false;
+  showDone(rec);
+}
+$('#btnSubmit').addEventListener('click',doSubmit);
+
+/* =====================================================================
+   Done screen
+   ===================================================================== */
+function showDone(rec){
+  $('#formView').classList.add('hidden'); $('#doneView').classList.remove('hidden');
+  const s=rec.sync||{};
+  const map={synced:'Your response has been recorded in the central sheet.','local-only':'Your response has been saved (local mode).',pending:'Your response is saved on this device and will sync automatically once the connection is available.'};
+  $('#doneMsg').textContent=(map[s.status]||'Your response has been saved.')+' Please print / save the PDF, sign it and submit it to HR.';
+  const when=new Date(rec.meta.submittedAt).toLocaleString();
+  $('#recbox').innerHTML=`<span>Application ID</span><b>${esc(rec.meta.submissionId)}</b><span>Candidate</span><b>${esc(rec.fields.fullName)}</b><span>Email</span><b>${esc(rec.email)}</b><span>Submitted</span><b>${esc(when)}</b><span>Data status</span><b>${esc({synced:'Synced to sheet','local-only':'Stored locally',pending:'Pending sync',duplicate:'Rejected (duplicate)'}[s.status]||s.status)}</b>`;
+  window.scrollTo({top:0});
+}
+$('#btnPrint').addEventListener('click',()=>{const rec=getLog().find(r=>r.meta.submissionId===LS.get('lastId',null));if(rec)printRecord(rec);});
+$('#btnJson').addEventListener('click',()=>{const rec=getLog().find(r=>r.meta.submissionId===LS.get('lastId',null));if(rec)download(rec.meta.submissionId+'.json',JSON.stringify(rec,null,2),'application/json');});
+$('#btnNew').addEventListener('click',()=>{
+  if(confirm('Start a new application for a different candidate on this device?\n(One response per email is still enforced.)')){
+    LS.del('lastId'); LS.del('draft'); state=freshState(); $('#doneView').classList.add('hidden'); $('#formView').classList.remove('hidden'); render(true);
+  }
+});
+function download(name,text,type){
+  const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([text],{type})); a.download=name; document.body.appendChild(a); a.click(); setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},500);
+}
+
+/* =====================================================================
+   Print / PDF document
+   ===================================================================== */
+const disp=(f,v)=>v==null||v===''?'':String(v);
+function kvRows(fields,vals){
+  const rows=[]; let buf=[];
+  const flush=()=>{ if(!buf.length) return; rows.push('<tr>'+buf.map(c=>`<th>${esc(c.l)}</th><td>${esc(c.v)||'—'}</td>`).join('')+(buf.length===1?'<th></th><td></td>':'')+'</tr>'); buf=[]; };
+  fields.forEach(f=>{
+    if(f.showIf&&!f.showIf(vals)) return;
+    const v=disp(f,vals[f.id]);
+    if(f.type==='textarea'||f.w===12){flush();rows.push(`<tr><th>${esc(f.label)}</th><td colspan="3">${esc(v)||'—'}</td></tr>`);}
+    else{buf.push({l:f.label,v});if(buf.length===2)flush();}
+  });
+  flush(); return rows.join('');
+}
+function listTable(tid,rec){
+  const T=TABLES[tid], rows=rec.tables[tid];
+  if(!rows.length) return '<table class="list"><tr><td>—  None declared</td></tr></table>';
+  return `<table class="list"><thead><tr><th>#</th>${T.cols.map(c=>`<th>${esc(c.l)}</th>`).join('')}</tr></thead><tbody>${rows.map((r,i)=>`<tr><td>${i+1}</td>${T.cols.map(c=>`<td>${esc(r[c.k])||''}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
+}
+function printHTML(rec){
+  const vals=rec.fields;
+  let h=`<div class="ph"><div><small>${esc(rec.meta.company)}</small><h1>Candidate Application &amp; Self-Assessment Form</h1></div><div class="meta"><b>Application ID:</b> ${esc(rec.meta.submissionId)}<br><b>Submitted:</b> ${esc(new Date(rec.meta.submittedAt).toLocaleString())}<br>Form v${esc(rec.meta.formVersion)} · Confidential</div></div>`;
+  SECTIONS.slice(0,4).forEach(s=>{
+    h+=`<div class="ps"><h2>${esc(s.title)}</h2>`;
+    s.blocks.forEach(b=>{
+      h+=`<h3>${esc(b.title)}</h3>`;
+      if(b.fields) h+=`<table>${kvRows(b.fields,vals)}</table>`;
+      if(b.table){
+        const skip=(b.table==='relatives'&&vals.relatives!=='Yes')||(b.table==='experience'&&vals.fresher==='Yes');
+        if(!skip) h+=listTable(b.table,rec);
+      }
+    });
+    h+='</div>';
+  });
+  h+=`<div class="ps"><h2>${esc(SECTIONS[4].title)}</h2>${rec.reflection.map(q=>`<div class="qa"><b>${esc(q.question)}</b><div>${esc(q.answer)||'—'}</div></div>`).join('')}</div>`;
+  h+=`<div class="ps"><h2>Declaration</h2><div class="decl">Hereby I confirm that to the best of my knowledge the information given on this form is correct.<br><br><b>Accepted:</b> ${esc(rec.declaration.agree)} &nbsp;·&nbsp; <b>Name:</b> ${esc(rec.declaration.name)} &nbsp;·&nbsp; <b>Date:</b> ${esc(rec.declaration.date)}</div>
+   <div class="sig"><div>Signature of the Candidate<small>Name: ${esc(rec.declaration.name)}</small><small>Date: ____ / ____ / ________</small></div><div>Verified by (HR / Authorised Signatory)<small>Name &amp; Designation: ______________________</small><small>Date: ____ / ____ / ________</small></div></div></div>
+   <div class="pfoot">${esc(rec.meta.company)} · Confidential candidate record · Application ID ${esc(rec.meta.submissionId)}</div>`;
+  return h;
+}
+function printRecord(rec){
+  $('#printArea').innerHTML=printHTML(rec);
+  const old=document.title; const nm=String(rec.fields.fullName||'Candidate').replace(/[^\w]+/g,'_');
+  document.title='Application_'+nm+'_'+rec.meta.submissionId;
+  const restore=()=>{document.title=old;window.removeEventListener('afterprint',restore);};
+  window.addEventListener('afterprint',restore);
+  setTimeout(()=>window.print(),80);
+}
+
+/* =====================================================================
+   Admin / log viewer  (open with  ...form.html#admin )
+   ===================================================================== */
+function csvEsc(v){v=String(v==null?'':v);return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v;}
+function openAdmin(){
+  const log=getLog();
+  $('#adminBody').innerHTML=log.length?`<table class="logtable"><thead><tr><th>Application ID</th><th>Name</th><th>Email</th><th>Position</th><th>Submitted</th><th>Sync</th></tr></thead><tbody>${log.map(r=>`<tr><td>${esc(r.meta.submissionId)}</td><td>${esc(r.fields.fullName)}</td><td>${esc(r.email)}</td><td>${esc(r.fields.position)}</td><td>${esc(new Date(r.meta.submittedAt).toLocaleString())}</td><td>${esc(r.sync&&r.sync.status)}</td></tr>`).join('')}</tbody></table>`:'<p>No submissions stored in this browser yet.</p>';
+  $('#adminBack').classList.add('show');
+}
+$('#aClose').onclick=()=>{$('#adminBack').classList.remove('show');history.replaceState(null,'',location.pathname+location.search);};
+$('#aJson').onclick=()=>download('submissions.json',JSON.stringify(getLog(),null,2),'application/json');
+$('#aCsv').onclick=()=>{
+  const head=['Application ID','Submitted At','Name','Email','Mobile','Position','Job Location','Sync Status'];
+  const rows=getLog().map(r=>[r.meta.submissionId,r.meta.submittedAt,r.fields.fullName,r.email,r.fields.mobile,r.fields.position,r.fields.jobLocation,r.sync&&r.sync.status]);
+  download('submissions.csv',[head].concat(rows).map(r=>r.map(csvEsc).join(',')).join('\n'),'text/csv');
+};
+$('#aRetry').onclick=async()=>{await retryPending();openAdmin();};
+window.addEventListener('hashchange',()=>{if(location.hash==='#admin')openAdmin();});
+
+/* =====================================================================
+   Boot
+   ===================================================================== */
+function boot(){
+  $('#coName').textContent=CONFIG.COMPANY_NAME;
+  state=freshState();
+  const lastId=LS.get('lastId',null);
+  const last=lastId&&getLog().find(r=>r.meta.submissionId===lastId);
+  if(last){ showDone(last); }
+  else{
+    if(loadDraft()&&(state.maxStep>0||Object.keys(state.data).length>2)) { render(false); showBanner('Welcome back – your saved progress has been restored.',true); }
+    else render(false);
+  }
+  if(location.hash==='#admin') openAdmin();
+  retryPending();
+}
+boot();
+
+})();
+</script>
+</body>
+</html>
